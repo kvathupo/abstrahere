@@ -3,3 +3,4 @@ stable release of GCC.
 
 ### To Be Done
 * CMake
+* Google Test
