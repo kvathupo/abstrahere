@@ -1,5 +1,9 @@
 ### What?
 Data structures and algorithms I've implemented from scratch.
+
+Languages:
+- C++14
+- Java
 ### Why?
 For practice.
 ### When?
