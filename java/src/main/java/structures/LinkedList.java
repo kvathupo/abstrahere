@@ -26,11 +26,11 @@ public class LinkedList<E> {
         }
 
         // Methods (Node)
-        public E getContents(E ele) {
+        public E getContents() {
             return this.ele;
         }
 
-        public Node getNext(Node next) {
+        public Node getNext() {
             return this.next;
         }
 
@@ -58,31 +58,33 @@ public class LinkedList<E> {
 
     public LinkedList(Collection<? extends E> c) {
         if (c == null || c.isEmpty()) {
-            this.head = new Node(null, null);
-            this.size = 0;
+            head = new Node(null, null);
+            size = 0;
         } else {
             Iterator<E> iter = c.iterator();
-            this.head = new Node(iter.next(), null);
-            this.size = 1;
+            head = new Node((E) iter.next(), null);
+            size = 1;
 
             while (iter.hasNext()) {
-                this.insert(iter.next());
+                this.insert((E) iter.next());
+                size++;
             }
         }
     }
 
     // Methods (LinkedList)
     /**
+     * Checks if list is empty (contains single node with contents null)
+     * <p>
      * Worst-case runtime: O(n)
      */
     public void insert(E ele) {
         if (isEmpty()) {
-            this.head.setContents(ele);
-            this.size++;
+            head.setContents(ele);
         } else {
-            this.head = new Node(ele, this.head);
-            this.size++;
+            head = new Node(ele, head);
         }
+        size++;
     }
 
     /**
@@ -99,20 +101,18 @@ public class LinkedList<E> {
     public E delete(Object obj) {
         if (!isEmpty()) {
             E retval = null;
-            Node<E> curr = this.head;
+            Node<E> curr = head;
             Node<E> prev = curr;
 
             do {
                 if (obj.equals(curr.getContents())) {
-                    if (curr == this.head) {
+                    if (curr == head) {
                         retval = curr.getContents();
-                        this.head = new Node(null, null);
-                        this.size--;
+                        head = new Node(null, null);
                         break;
                     } else {
                         retval = curr.getContets();
                         prev.setNext(curr.getNext());
-                        this.size--;
                         break;
                     }
                 } else {
@@ -120,10 +120,19 @@ public class LinkedList<E> {
                     curr = curr.getNext();
                 }
             } while (prev.hasNext())
+            size--;
             return retval;
+        } else {
+            return null;
         }
     }
 
+    /**
+     * Returns true if the equals() method of obj returns true for the contents
+     * of any node.
+     * <p>
+     * Worst-case runtime: O(n)
+     */
     public boolean contains(Object obj) {
         if (!isEmpty()) {
             boolean retVal = false;
@@ -140,11 +149,13 @@ public class LinkedList<E> {
                 }
             } while (prev.hasNext())
             return retVal;
+        } else {
+             return false;
         }
     }
 
-    public boolean size() {
-        return this.size;
+    public int size() {
+        return size;
     }
 
     public boolean isEmpty() {
@@ -154,16 +165,27 @@ public class LinkedList<E> {
     /* 
      * The above methods satisfy the use of LinkedList as a set.
      * (Unordered Linked List)
+     * <p>
      * The methods below extend LinkedList to an Array.
      * (Ordered Linked List)
      */
 
+    /**
+     * Returns the contents of the node at specified index. 
+     * <p>
+     * Worst-case runtime: O(n) 
+     *
+     * @param   indx                        Index of the intended object
+     * @throws  IndexOutOfBoundsException   If index out of bounds
+     * @return                              Contents of the node at index of 
+     *                                      argument.
+     */
     public E get(int indx) throws IndexOutOfBoundsException {
         if (indx < 0 || size <= indx) {
             throw new IndexOutOfBoundsException("Index " + indx
                     + " out of bounds for list of size " + size);
         } else {
-            Node<E> curr = this.head;
+            Node<E> curr = head;
 
             while (indx > 0) {
                 curr = curr.getNext();
@@ -173,13 +195,24 @@ public class LinkedList<E> {
         }
     }
 
+    /**
+     * Inserts element at specified index. 
+     * <p>
+     * Worst-case runtime: O(n) 
+     *
+     * @param   indx                        Index of insertion.
+     * @param   ele                         Object to insert.
+     * @throws  IndexOutOfBoundsException   If index out of bounds.
+     */
     public void insertAt(int indx, E ele) {
         if (indx < 0 || size <= indx) {
             throw new IndexOutOfBoundsException("Index " + indx
                     + " out of bounds for list of size " + size);
+        } else if (indx == 0) {
+            insert(ele);
         } else {
-            Node<E> curr = this.head;
-            Node<E> prev = this.head;
+            Node<E> curr = head;
+            Node<E> prev = head;
 
             while (indx > 0) {
                 prev = curr;
