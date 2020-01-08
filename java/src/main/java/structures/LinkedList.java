@@ -1,6 +1,5 @@
 package structures;
 import java.lang.IndexOutOfBoundsException;
-import java.util.AbstractSequentialList;
 
 /**
  * A basic implementation of a singly linked list with methods supporting 
