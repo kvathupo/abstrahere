@@ -1,7 +1,7 @@
 Data structures and algorithms in C++14. Uses features supported by the latest
 stable release of GCC. 
 
-__Development environment:__ Windows with latest stable release of GCC.
+__Development Environment:__ Windows with latest stable release of GCC.
 
 Useful Links:
 * [ISO standard reference](https://en.cppreference.com/w/)
