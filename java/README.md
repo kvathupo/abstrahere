@@ -1,5 +1,7 @@
 Data structures and algorithms in Java 8.
 
+__Development Environment:__ Vim, JUnit 5 and `javac`.
+
 Useful links:
 * [JUnit 5 Console Launcher](https://junit.org/junit5/docs/current/user-guide/#running-tests-console-launcher)
     * [Example](https://stackoverflow.com/a/52373592)
