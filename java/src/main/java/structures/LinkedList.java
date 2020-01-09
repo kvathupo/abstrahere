@@ -6,6 +6,7 @@ import java.lang.IndexOutOfBoundsException;
  * ordered and unordered flavors.
  * <p>
  * Differences from JDK:
+ * - Overrides hashCode() method
  * - Constructor doesn't throw NullPointerException
  *   - Has isEmpty() method
  * - Not Serializable
@@ -13,13 +14,13 @@ import java.lang.IndexOutOfBoundsException;
  * @author  Kalinda Vathupola
  */
 public class LinkedList<E> {
-    private class Node {
+    private class Node<E> {
         // Fields (Node)
         private transient E ele;
-        private transient Node next;
+        private transient Node<E> next;
 
         // Constructors (Node)
-        public Node(E ele, Node next) {
+        public Node(E ele, Node<E> next) {
             setContents(ele);
             setNext(next);
         }
@@ -29,7 +30,7 @@ public class LinkedList<E> {
             return this.ele;
         }
 
-        public Node getNext() {
+        public Node<E> getNext() {
             return this.next;
         }
 
@@ -37,7 +38,7 @@ public class LinkedList<E> {
             this.ele = ele;
         }
 
-        public void setNext(Node next) {
+        public void setNext(Node<E> next) {
             this.next = next;
         }
 
@@ -47,7 +48,7 @@ public class LinkedList<E> {
     }
     
     // Fields (LinkedList)
-    private transient Node head;
+    private transient Node<E> head;
     private int size;
 
     // Constructors (LinkedList)
@@ -57,21 +58,54 @@ public class LinkedList<E> {
 
     public LinkedList(Collection<? extends E> c) {
         if (c == null || c.isEmpty()) {
-            head = new Node(null, null);
+            head = new Node<>(null, null);
             size = 0;
         } else {
             Iterator<E> iter = c.iterator();
-            head = new Node((E) iter.next(), null);
+            head = new Node<>((E) iter.next(), null);
             size = 1;
 
             while (iter.hasNext()) {
-                this.insert((E) iter.next());
+                insert((E) iter.next());
                 size++;
             }
         }
     }
 
     // Methods (LinkedList)
+    /**
+     * Get the head of the linked list.
+     *
+     */
+    private Node<E> getHead() {
+        return head;
+    }
+
+    /**
+     * Checks that the current linked list and the argument are of the same type
+     * and equal as unordered lists.
+     *
+     * @param obj       Target object to check for equality
+     * @return          true if both are of the same type, else false
+     */
+    public boolean equalsUnordered(Object obj) {
+        if (obj instanceof LinkedList<? extends E>) {
+            LinkedList<E> lst = (LinkedList<E>) obj;
+            Node<E> curr = head;
+
+            do {
+                if (!lst.contains(curr.getContents())) {
+                    return false;
+                } else {
+                    curr = curr.getNext()
+                }
+            } while (curr != null && currTarget != null)
+
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * Checks if list is empty (contains single node with contents null)
      * <p>
@@ -81,7 +115,7 @@ public class LinkedList<E> {
         if (isEmpty()) {
             head.setContents(ele);
         } else {
-            head = new Node(ele, head);
+            head = new Node<>(ele, head);
         }
         size++;
     }
@@ -107,7 +141,7 @@ public class LinkedList<E> {
                 if (obj.equals(curr.getContents())) {
                     if (curr == head) {
                         retval = curr.getContents();
-                        head = new Node(null, null);
+                        head = new Node<>(null, null);
                         break;
                     } else {
                         retval = curr.getContets();
@@ -170,6 +204,41 @@ public class LinkedList<E> {
      */
 
     /**
+     * Checks that the current linked list and the argument are of the same type
+     * and equal as ordered lists.
+     *
+     * @param obj       Target object to check for equality
+     * @return          true if both are of the same type, else false
+     */
+    public boolean equalsOrdered(Object obj) {
+        if (obj instanceof LinkedList<? extends E>) {
+            LinkedList<E> lst = (LinkedList<E>) obj;
+
+            // Are the lists of equal size? If not, short-circuit to save 
+            // runtime
+            if (lst.getSize() != getSize()) {
+                return false;
+            }
+
+            Node<E> curr = head;
+            Node<E> currTarget = lst.getHead();
+
+            do {
+                if (!curr.getContents().equals(currTarget.getContents())) {
+                    return false;
+                } else {
+                    curr = curr.getNext();
+                    currTarget = currTarget.getNext();
+                }
+            } while (curr != null && currTarget != null)
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Returns the contents of the node at specified index. 
      * <p>
      * Worst-case runtime: O(n) 
@@ -218,7 +287,7 @@ public class LinkedList<E> {
                 curr = curr.getNext();
                 indx--;
             }
-            prev.setNext(new Node(ele, curr));
+            prev.setNext(new Node<>(ele, curr));
         }
 
     }
