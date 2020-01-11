@@ -1,12 +1,16 @@
 Data structures and algorithms in C++14. Uses features supported by the latest
 stable release of GCC. 
 
-__Development Environment:__ Windows with latest stable release of GCC.
+__Development Environment:__ Latest stable release of GCC
+with [MinGW.](https://nuwen.net/mingw.html)
 
 Useful Links:
 * [ISO standard reference](https://en.cppreference.com/w/)
 * [Visual C++ reference](https://docs.microsoft.com/en-us/cpp/cpp/c-cpp-language-and-standard-libraries)
 * [C++ Standard support in GCC](https://gcc.gnu.org/projects/cxx-status.html)
+* [Command prompt cheat sheet](http://www.cs.columbia.edu/~sedwards/classes/2015/1102-fall/Command%20Prompt%20Cheatsheet.pdf)
+* [Vim cheat sheet](https://vim.rtorr.com/)
+
 
 ### To Be Done
 * CMake
