@@ -1,4 +1,4 @@
-Data structures and algorithms in C++14. Uses features supported by the latest
+Data structures and algorithms in C++17. Uses features supported by the latest
 stable release of GCC. 
 
 __Development Environment:__ Latest stable release of GCC
