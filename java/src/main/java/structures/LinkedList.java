@@ -1,5 +1,7 @@
 package structures;
 import java.lang.IndexOutOfBoundsException;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * A basic implementation of a singly linked list with methods supporting 
@@ -50,27 +52,34 @@ public class LinkedList<E> {
     // Fields (LinkedList)
     private transient Node<E> head;
     private int size;
+    private Class<E> type;
 
     // Constructors (LinkedList)
     public LinkedList() {
-        LinkedList(null);
+        this(null);
     }
-
-    public LinkedList(Collection<? extends E> c) {
-        if (c == null || c.isEmpty()) {
+    public LinkedList(Object c) {
+        // Check c is instaceof Collection<? extends E>
+        // null check -> instanceof Collection<?> -> isempty? -> element of type?
+        // not null -> 
+        if (c == null || !(c instanceof Collection<?>) ||
+                    (((Collection<?>)c).isEmpty()) ||
+                    !(type.isInstance(((Collection<?>) c).iterator().next()))){
             head = new Node<>(null, null);
             size = 0;
         } else {
-            Iterator<E> iter = c.iterator();
-            head = new Node<>((E) iter.next(), null);
+            Collection<E> origC = (Collection<E>) c;
+            Iterator<E> iter = origC.iterator();
+            head = new Node<>(iter.next(), null);
             size = 1;
 
             while (iter.hasNext()) {
-                insert((E) iter.next());
+                insert(iter.next());
                 size++;
             }
         }
     }
+
 
     // Methods (LinkedList)
     /**
@@ -88,23 +97,18 @@ public class LinkedList<E> {
      * @param obj       Target object to check for equality
      * @return          true if both are of the same type, else false
      */
-    public boolean equalsUnordered(Object obj) {
-        if (obj instanceof LinkedList<? extends E>) {
-            LinkedList<E> lst = (LinkedList<E>) obj;
-            Node<E> curr = head;
+    public boolean equalsUnordered(LinkedList<E> lst) {
+        Node<E> curr = head;
 
-            do {
-                if (!lst.contains(curr.getContents())) {
-                    return false;
-                } else {
-                    curr = curr.getNext()
-                }
-            } while (curr != null && currTarget != null)
+        do {
+            if (!lst.contains(curr.getContents())) {
+                return false;
+            } else {
+                curr = curr.getNext();
+            }
+        } while (curr != null);
 
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     }
     /**
      * Checks if list is empty (contains single node with contents null)
@@ -144,7 +148,7 @@ public class LinkedList<E> {
                         head = new Node<>(null, null);
                         break;
                     } else {
-                        retval = curr.getContets();
+                        retval = curr.getContents();
                         prev.setNext(curr.getNext());
                         break;
                     }
@@ -152,7 +156,7 @@ public class LinkedList<E> {
                     prev = curr;
                     curr = curr.getNext();
                 }
-            } while (prev.hasNext())
+            } while (prev.hasNext());
             size--;
             return retval;
         } else {
@@ -180,7 +184,7 @@ public class LinkedList<E> {
                     prev = curr;
                     curr = curr.getNext();
                 }
-            } while (prev.hasNext())
+            } while (prev.hasNext());
             return retVal;
         } else {
              return false;
@@ -210,32 +214,26 @@ public class LinkedList<E> {
      * @param obj       Target object to check for equality
      * @return          true if both are of the same type, else false
      */
-    public boolean equalsOrdered(Object obj) {
-        if (obj instanceof LinkedList<? extends E>) {
-            LinkedList<E> lst = (LinkedList<E>) obj;
-
-            // Are the lists of equal size? If not, short-circuit to save 
-            // runtime
-            if (lst.getSize() != getSize()) {
-                return false;
-            }
-
-            Node<E> curr = head;
-            Node<E> currTarget = lst.getHead();
-
-            do {
-                if (!curr.getContents().equals(currTarget.getContents())) {
-                    return false;
-                } else {
-                    curr = curr.getNext();
-                    currTarget = currTarget.getNext();
-                }
-            } while (curr != null && currTarget != null)
-
-            return true;
-        } else {
+    public boolean equalsOrdered(LinkedList<E> lst) {
+        // Are the lists of equal size? If not, short-circuit to save 
+        // runtime
+        if (lst.size() != size()) {
             return false;
         }
+
+        Node<E> curr = head;
+        Node<E> currTarget = lst.getHead();
+
+        do {
+            if (!curr.getContents().equals(currTarget.getContents())) {
+                return false;
+            } else {
+                curr = curr.getNext();
+                currTarget = currTarget.getNext();
+            }
+        } while (curr != null && currTarget != null);
+
+        return true;
     }
 
     /**
