@@ -2,7 +2,7 @@
 Data structures and algorithms I've implemented from scratch.
 
 Languages:
-- C++14
+- C++17
 - Java
 ### Why?
 For practice.
