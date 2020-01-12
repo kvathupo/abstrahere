@@ -15,3 +15,4 @@ Useful Links:
 ### To Be Done
 * CMake
 * Google Test
+* [Directory Structure](https://stackoverflow.com/questions/13521618/c-project-organisation-with-gtest-cmake-and-doxygen)
