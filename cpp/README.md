@@ -1,8 +1,6 @@
-Data structures and algorithms in C++17. Uses features supported by the latest
-stable release of GCC. 
+Data structures and algorithms in C++17.
 
-__Development Environment:__ Latest stable release of GCC
-with [MinGW.](https://nuwen.net/mingw.html)
+__Development Environment:__ GCC 8
 
 Useful Links:
 * [ISO standard reference](https://en.cppreference.com/w/)
