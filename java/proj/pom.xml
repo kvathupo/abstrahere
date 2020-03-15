@@ -6,7 +6,7 @@
   <packaging>pom</packaging>
   <version>1.0</version>
   <name>proj</name>
-  <url>http://maven.apache.org</url>
+  <url>https://github.com/kvathupo/abstrahere</url>
   <dependencies>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
