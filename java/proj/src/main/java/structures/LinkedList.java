@@ -113,7 +113,6 @@ public class LinkedList<E> {
     /**
      * Checks if list is empty (contains single node with contents null)
      * <p>
-     * Worst-case runtime: O(n)
      */
     public void insert(E ele) {
         if (isEmpty()) {
