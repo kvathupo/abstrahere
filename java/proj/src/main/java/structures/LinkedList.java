@@ -98,6 +98,9 @@ public class LinkedList<E> {
      * @return          true if both are of the same type, else false
      */
     public boolean equalsUnordered(LinkedList<E> lst) {
+        if (lst.isEmpty()) {
+            return false;
+        }
         Node<E> curr = head;
 
         do {
