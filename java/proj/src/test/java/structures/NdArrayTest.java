@@ -12,8 +12,9 @@ public class NdArrayTest {
     @Order(1)
     void creationTest() {
         NdArray<Integer> arr = new NdArray<>(2, 3);
-        int[2][3] c_arr;
+        int[][] c_arr = new int[2][3];
         
         c_arr[0][0] = 1;
 
     }
+}
