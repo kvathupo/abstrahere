@@ -59,7 +59,7 @@ public class NdArray<E> {
 
             int capacity = 0;
             for (int i = 0; i < dim; i++) {
-                capacity += dims[i];
+                capacity *= dims[i];
             }
             backingArr = (E[]) new Object[capacity];
         }
@@ -91,6 +91,7 @@ public class NdArray<E> {
             throw new RuntimeException("NdArray.getEntry: " +  errMsg);
         } else {
             int backingInd = 0;
+            int i = 0;
             for (int ind : index) {
                 backingInd += ind;
             }

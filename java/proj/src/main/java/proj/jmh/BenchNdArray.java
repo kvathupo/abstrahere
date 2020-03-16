@@ -11,10 +11,11 @@ import java.util.concurrent.TimeUnit;
 import proj.structures.NdArray;
 
 @BenchmarkMode(Mode.AverageTime)
+@State(Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-public class BENCH_NdArray {
+public class BenchNdArray {
     private int[][][] arrOrig1 = new int[100][100][100];
-    private NdArray<Integer> arr1;
+    private NdArray<Integer> arr1 = new NdArray<>(100, 100, 100);
     
     @Benchmark
     public void makeFieldsOrig() {
@@ -66,7 +67,7 @@ public class BENCH_NdArray {
     
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(BENCH_NdArray.class.getSimpleName())
+                .include(BenchNdArray.class.getSimpleName())
                 .forks(1)
                 .build();
 
