@@ -59,7 +59,7 @@ public class NdArray<E> {
             dimLen = dims.clone();
             auxDim = dims.clone();
 
-            int capacity = 0;
+            int capacity = 1;
             for (int i = 0; i < dim; i++) {
                 auxDim[i] = 1;
                 for (int j = i + 1; j < dim; j++) {
@@ -67,6 +67,7 @@ public class NdArray<E> {
                 }
                 capacity *= dims[i];
             }
+            auxDim[dim - 1] = 1;
             backingArr = (E[]) new Object[capacity];
         }
     }
