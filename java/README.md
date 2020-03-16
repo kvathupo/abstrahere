@@ -1,5 +1,6 @@
 ## Description
 * `proj` - Maven directory for microbenchmarking with JMH
+    * Tests in JUnit 5
 
 __Development Environment:__ Vim, JUnit 5 and `javac`.
 
