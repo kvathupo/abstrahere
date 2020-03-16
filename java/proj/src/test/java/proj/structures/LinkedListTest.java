@@ -1,4 +1,4 @@
-package structures;
+package proj.structures;
 
 // JUnit
 import org.junit.jupiter.api.*;

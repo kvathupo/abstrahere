@@ -1,4 +1,5 @@
-package structures;
+package proj.structures;
+
 import java.lang.IndexOutOfBoundsException;
 import java.util.Collection;
 import java.util.Iterator;

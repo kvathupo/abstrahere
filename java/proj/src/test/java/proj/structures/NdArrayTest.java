@@ -1,4 +1,4 @@
-package structures;
+package proj.structures;
 
 // JUnit
 import org.junit.jupiter.api.*;
@@ -15,6 +15,11 @@ public class NdArrayTest {
         int[][] c_arr = new int[2][3];
         
         c_arr[0][0] = 1;
+        arr.put(1, 0, 0);
 
+        c_arr[1][0] = 2;
+        arr.put(2, 1, 0);
+
+        assertEquals(arr.get(1, 0), c_arr[1][0]);
     }
 }
