@@ -23,9 +23,10 @@ import java.util.Arrays;
 public class NdArray<E> {
     // Fields (NdArray)
     private static final int MAXDIM = 512;
-    int dim;
-    int[] dimLen;
-    E[] backingArr;
+    private int dim;
+    private int[] dimLen;
+    private int[] auxDim;
+    private E[] backingArr;
 
     // Constructors (NdArray)
     /**
@@ -56,9 +57,14 @@ public class NdArray<E> {
         } else {
             dim = dims.length;
             dimLen = dims.clone();
+            auxDim = dims.clone();
 
             int capacity = 0;
             for (int i = 0; i < dim; i++) {
+                auxDim[i] = 1;
+                for (int j = i + 1; j < dim; j++) {
+                    auxDim[i] *= dims[j];
+                }
                 capacity *= dims[i];
             }
             backingArr = (E[]) new Object[capacity];
@@ -93,7 +99,8 @@ public class NdArray<E> {
             int backingInd = 0;
             int i = 0;
             for (int ind : index) {
-                backingInd += ind;
+                backingInd += ind * auxDim[i];
+                i++;
             }
             return backingArr[backingInd];
         }
@@ -119,8 +126,10 @@ public class NdArray<E> {
             throw new IndexOutOfBoundsException("NdArray.getEntry");
         } else {
             int backingInd = 0;
+            int i = 0;
             for (int ind : index) {
-                backingInd += ind;
+                backingInd += ind * auxDim[i];
+                i++;
             }
             return backingArr[backingInd];
         }
@@ -140,8 +149,10 @@ public class NdArray<E> {
             throw new RuntimeException("NdArray.getEntry: " +  errMsg);
         } else {
             int backingInd = 0;
+            int i = 0;
             for (int ind : index) {
-                backingInd += ind;
+                backingInd += ind * auxDim[i];
+                i++;
             }
             backingArr[backingInd] = ele;
         }
