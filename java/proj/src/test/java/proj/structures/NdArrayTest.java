@@ -7,19 +7,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(OrderAnnotation.class)
 public class NdArrayTest {
+    private int d1 = 100;
+    private int d2 = 100;
+    private int d3 = 100;
 
     @Test
     @Order(1)
     void creationTest() {
-        NdArray<Integer> arr = new NdArray<>(2, 3);
-        int[][] c_arr = new int[2][3];
+        NdArray<Integer> arr = new NdArray<>(d1, d2, d3);
+        int[][][] c_arr = new int[d1][d2][d3];
         
-        c_arr[0][0] = 1;
-        arr.put(1, 0, 0);
+        for (int i = 0; i < d1; i++) {
+            for (int j = 0; j < d2; j++) {
+                for (int k = 0; k < d3; k++) {
+                    c_arr[i][j][k] = 2*i + 3*j + 5*k;
+                    arr.put(2*i + 3*j + 5*k, i, j, k);
+                }
+            }
+        }
 
-        c_arr[1][0] = 2;
-        arr.put(2, 1, 0);
+        for (int i = 0; i < d1; i++) {
+            for (int j = 0; j < d2; j++) {
+                for (int k = 0; k < d3; k++) {
+                    assertEquals(arr.get(i, j, k), c_arr[i][j][k]);
+                }
+            }
+        }
 
-        assertEquals(arr.get(1, 0), c_arr[1][0]);
     }
 }
