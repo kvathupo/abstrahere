@@ -47,6 +47,7 @@ public class NdArray<E> {
      *                              (the limit of the JVM)
      */
     public NdArray(int... dims) throws RuntimeException {
+        dim = dims.length;
         if (dim >= MAXDIM) {
             String errMsg = String.format("NdArray: dimension request of %d" + 
                     " exceeds 512, max allowed by JVM", dim);
