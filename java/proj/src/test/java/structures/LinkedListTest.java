@@ -42,7 +42,8 @@ public class LinkedListTest {
         lst2.insert(4);
     
         assertEquals(lst.equalsUnordered(lst2), lst2.equalsUnordered(lst));
-        
+        assertFalse(lst.equalsOrdered(lst2));
+
         lst.delete(1);
         lst.delete(2);
         lst.delete(3);
