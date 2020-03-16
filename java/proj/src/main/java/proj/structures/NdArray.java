@@ -67,7 +67,6 @@ public class NdArray<E> {
                 }
                 capacity *= dims[i];
             }
-            auxDim[dim - 1] = 1;
             backingArr = (E[]) new Object[capacity];
         }
     }
@@ -85,26 +84,15 @@ public class NdArray<E> {
      * WARNING: No bounds checking!
      *
      * @param  index                        Requested index
-     * @throws RuntimeException             If dimension of index does not match
-     *                                      that of the backing array.
      * @return                              Value at multidimensional array
      *                                      index.
      */
-    public E get(int... index) 
-            throws RuntimeException {
-        if (index.length != dim) {
-            String errMsg = String.format("Index of dimension %d does not " + 
-                    "match backing array's dimension of %d", index.length, dim);
-            throw new RuntimeException("NdArray.getEntry: " +  errMsg);
-        } else {
-            int backingInd = 0;
-            int i = 0;
-            for (int ind : index) {
-                backingInd += ind * auxDim[i];
-                i++;
-            }
-            return backingArr[backingInd];
+    public E get(int... index) {
+        int backingInd = 0;
+        for (int i = 0; i < index.length; i++) {
+            backingInd += index[i] * auxDim[i];
         }
+        return backingArr[backingInd];
     }
     /**
      * Return element from the backing array with index corresponding to 
