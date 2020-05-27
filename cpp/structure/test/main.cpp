@@ -8,6 +8,8 @@ int main() {
     lst.add(1);
     lst.add(2);
     lst.add(3);
+    lst.remove(2);
+    lst.clear();
     lst.print();
     return 0;
 }
