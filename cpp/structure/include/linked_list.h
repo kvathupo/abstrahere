@@ -12,6 +12,17 @@ template<typename T>
 class LinkedList {
 public:
     LinkedList(): sz{0} {}
+    // Copy-constructor that deep-copies the smart pointer
+    LinkedList(const LinkedList& other): sz{other.sz} { 
+        std::shared_ptr<Node> curr = other.head;
+        while (curr != nullptr) {
+            this->add(curr->getContents());
+            curr = curr->getNext();
+        }
+    }
+    LinkedList(LinkedList&&) = default;     // default move of shared_ptr
+                                            // transfers ownership, as needed
+
     void add(T input) {
         if (this->head == nullptr) {
             this->head = std::make_shared<Node>(input);
@@ -53,6 +64,8 @@ public:
     int size() {
         return this->sz;
     }   
+
+    ~LinkedList() = default;
 private:
     class Node {
     private:
@@ -63,6 +76,7 @@ private:
         Node(T dat, Node next_node): val{dat},
             next{std::make_shared<Node>(next_node)}
         {}
+
         T getContents() {
             return this->val;
         }
