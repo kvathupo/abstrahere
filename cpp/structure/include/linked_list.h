@@ -15,28 +15,44 @@ public:
     void add(T input) {
         if (this->head == nullptr) {
             this->head = std::make_shared<Node>(input);
+            this->sz++;
             return;
         }
-        std::shared_ptr<Node> curr = this->head;
-        std::shared_ptr<Node> next = curr;
-        while (next != nullptr) {
-            curr = next;
-            next = curr->getNext();
-        }
-        curr->setNext(std::make_shared<Node>(input));
+        std::shared_ptr<Node> new_head = std::make_shared<Node>(input, *(this->head));
+        this->head = new_head;
+        this->sz++;
     }
     void print() {
         std::cout << "Starting print\n";
-        std::shared_ptr<Node> curr = this->head;
+        std::shared_ptr<Node> curr = this->head;        // Bumps use count to 2
         while (curr != nullptr) {
-            std::cout << curr->getContents() << "\n";
+            std::cout << "Content: " << curr->getContents() << "\n";
             curr = curr->getNext();
         } 
         std::cout << "Ending print\n";
     }
-    T remove(T);
-    void clear();
-    int size();
+    T remove(T input) {
+        if (this->head == nullptr) {
+            std::cout << "No such value found\n";
+            return input;
+        }
+        std::shared_ptr<Node> curr = this->head;
+        std::shared_ptr<Node> next = curr;
+        while (next->getContents() != input) {
+            curr = next;
+            next = curr->getNext();
+        }
+        curr->setNext(next->getNext());
+        this->sz--;
+        return input;
+    }
+    void clear() {
+        this->head = nullptr;
+        this->sz = 0;
+    }
+    int size() {
+        return this->sz;
+    }   
 private:
     class Node {
     private:
@@ -51,8 +67,7 @@ private:
             return this->val;
         }
         std::shared_ptr<Node> getNext() {
-            return next;                    // Does this bump refcount?
-                                            // I think so, but check with use_count
+            return next;                   // Bumps use count to 2
         }
         void setNext(std::shared_ptr<Node> in_node) {
             next = in_node;
