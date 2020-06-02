@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 inline namespace strct {
 
@@ -15,9 +16,17 @@ public:
     // Copy-constructor that deep-copies the smart pointer
     LinkedList(const LinkedList& other): sz{other.sz} { 
         std::shared_ptr<Node> curr = other.head;
+        std::vector<T> v1 {};
+
         while (curr != nullptr) {
-            this->add(curr->getContents());
+            v1.push_back(curr->getContents());
             curr = curr->getNext();
+        }
+        auto it = v1.rbegin();
+        auto it_ending = v1.rend();
+        while (it != it_ending) {
+            this->add(*it);
+            ++it;
         }
     }
     LinkedList(LinkedList&&) = default;     // default move of shared_ptr
