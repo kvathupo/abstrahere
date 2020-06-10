@@ -10,8 +10,9 @@ int main() {
     lst.add(3);
     std::cout << "Printing lst...\n";
     lst.print();
-    LinkedList<int> lst2 {lst};
-    std::cout << "Printing lst2...\n";
-    lst2.print();
+    std::cout << "Printing one-by-one!\n";
+    std::cout << lst[0]++ << " " << lst[1]++ << " " << lst[2]++ << "\n";
+    std::cout << "Printing lst...\n";
+    lst.print();
     return 0;
 }
