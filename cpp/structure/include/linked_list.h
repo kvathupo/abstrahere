@@ -2,16 +2,16 @@
 
 #include <memory>
 #include <vector>
+#include <type_traits>
+#include <cassert>
 
 inline namespace strct {
 
-// Definition
-// * Since you cannot separate a templated class into header and implementation,
-// it would be best to simply define the class with the declaration. 
-
-template<typename T>
+template<typename T,
+    typename = typename std::enable_if<std::is_copy_constructible<T>::value, T>::type>
 class LinkedList {
 public:
+    // constructors
     LinkedList(): sz{0} {}
     // Copy-constructor that deep-copies the smart pointer
     LinkedList(const LinkedList& other): sz{other.sz} { 
@@ -22,6 +22,7 @@ public:
             v1.push_back(curr->getContents());
             curr = curr->getNext();
         }
+
         auto it = v1.rbegin();
         auto it_ending = v1.rend();
         while (it != it_ending) {
@@ -32,6 +33,7 @@ public:
     LinkedList(LinkedList&&) = default;     // default move of shared_ptr
                                             // transfers ownership, as needed
 
+    // member functions
     void add(T input) {
         if (this->head == nullptr) {
             this->head = std::make_shared<Node>(input);
@@ -44,27 +46,39 @@ public:
     }
     void print() {
         std::cout << "Starting print\n";
-        std::shared_ptr<Node> curr = this->head;        // Bumps use count to 2
+        std::shared_ptr<Node> curr = this->head; 
         while (curr != nullptr) {
-            std::cout << "Content: " << curr->getContents() << "\n";
+            std::cout << curr->getContents() << " ";
             curr = curr->getNext();
         } 
-        std::cout << "Ending print\n";
+        std::cout << "\nEnding print\n";
     }
-    T remove(T input) {
-        if (this->head == nullptr) {
-            std::cout << "No such value found\n";
-            return input;
-        }
+    T remove(const T& input) {
+        assert(this->head != nullptr);
         std::shared_ptr<Node> curr = this->head;
         std::shared_ptr<Node> next = curr;
         while (next->getContents() != input) {
             curr = next;
             next = curr->getNext();
+
+            if (next == nullptr) {
+                std::cout << "No such element!\n";
+                return T{input};
+            }
         }
         curr->setNext(next->getNext());
         this->sz--;
-        return input;
+        return T{input};                        // force RVO (since c++17)
+    }
+    // Zero-indexed access
+    T& operator[](std::size_t idx) {
+        assert(this->head != nullptr);
+        assert(idx < this->sz);
+        std::shared_ptr<Node> curr = this->head;
+        for (auto i = 0; i < idx; i++) {
+            curr = curr->getNext();
+        }
+        return curr->getContentsAddr();
     }
     void clear() {
         this->head = nullptr;
@@ -76,6 +90,7 @@ public:
 
     ~LinkedList() = default;
 private:
+    // nested class
     class Node {
     private:
         T val;
@@ -89,6 +104,9 @@ private:
         T getContents() {
             return this->val;
         }
+        T& getContentsAddr() {
+            return this->val;
+        }
         std::shared_ptr<Node> getNext() {
             return next;                   // Bumps use count to 2
         }
@@ -97,6 +115,7 @@ private:
         }
     }; 
 
+    // member variables
     std::shared_ptr<Node> head {};
     int sz;
 };
