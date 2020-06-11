@@ -4,3 +4,5 @@ __Development Environment:__ GCC 8
 
 ## Structures Implemented
 * Templated singly linked-list with smart pointers `./structure/include/linked_list.h`
+* Templated stack `./structure/include/stack.h`
+    * Backed by linked list
