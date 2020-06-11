@@ -1,18 +1,24 @@
 #include <iostream>
 #include <memory>
 #include "linked_list.h"
+#include "stack.h"
 
 int main() {
-    std::cout << "At least I don't crash... yet...\n";
-    LinkedList<int> lst {};
-    lst.add(1);
-    lst.add(2);
-    lst.add(3);
-    std::cout << "Printing lst...\n";
-    lst.print();
-    std::cout << "Printing one-by-one!\n";
-    std::cout << lst[0]++ << " " << lst[1]++ << " " << lst[2]++ << "\n";
-    std::cout << "Printing lst...\n";
-    lst.print();
+    strct::Stack<int> s1 {};
+
+    s1.push(1);
+    s1.push(2);
+    s1.push(3);
+
+    std::cout << "Printing s1\n";
+    s1.print();
+    
+    std::cout << "Printing s2\n";
+    strct::Stack<int> s2 {s1};
+    s2.print();
+
+    std::cout << "Printing s1\n";
+    s1.print();
+
     return 0;
 }
