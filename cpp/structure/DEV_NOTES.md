@@ -6,3 +6,7 @@ Otherwise, there is a compiler error of "type declared out of scope."
 Otherwise, the linker will fail.
 * When calling the constructor of `std::vector` that allocates space, you
 _must_ call the constructor, not use initializer braces!
+
+## TODO
+* In the copy constructor, why can I access the private member variables of
+`other`?
