@@ -4,6 +4,7 @@
 #include <vector>
 #include <type_traits>
 #include <cassert>
+#include <algorithm>
 
 inline namespace strct {
 
@@ -29,6 +30,18 @@ public:
         }
     }
     Stack(Stack&&) = default;
+
+    // operators
+    Stack& operator=(const Stack& other) {
+        Stack tmp {other};
+        std::swap(other, *this);
+        return *this;
+    }
+
+    Stack& operator=(const Stack&& other) {
+        std::swap(other, *this);
+        return *this;
+    }
 
     // member functions
     void push(T ele) {
