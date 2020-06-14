@@ -4,6 +4,7 @@
 #include <vector>
 #include <type_traits>
 #include <cassert>
+#include <algorithm>
 
 inline namespace strct {
 
@@ -32,6 +33,32 @@ public:
     }
     LinkedList(LinkedList&&) = default;     // default move of shared_ptr
                                             // transfers ownership, as needed
+
+    // operators
+    LinkedList& operator=(const LinkedList& other) {    // oftentimes, no need for self-assignment check
+        using std::swap;
+
+        LinkedList tmp {other};                 // copy-assignment allows constructor exceptions and
+                                                // partial assignment of member variables
+        swap(tmp, *this);
+        return *this;
+    }
+    LinkedList& operator=(const LinkedList&& other) {
+        using std::swap;
+
+        swap(other, *this);
+        return *this;
+    }
+    // Zero-indexed access
+    T& operator[](std::size_t idx) {
+        assert(this->head != nullptr);
+        assert(idx < this->sz);
+        std::shared_ptr<Node> curr = this->head;
+        for (auto i = 0; i < idx; i++) {
+            curr = curr->getNext();
+        }
+        return curr->getContentsAddr();
+    }
 
     // member functions
     void add(T input) {
@@ -69,16 +96,6 @@ public:
         curr->setNext(next->getNext());
         this->sz--;
         return T{input};                        // force RVO (since c++17)
-    }
-    // Zero-indexed access
-    T& operator[](std::size_t idx) {
-        assert(this->head != nullptr);
-        assert(idx < this->sz);
-        std::shared_ptr<Node> curr = this->head;
-        for (auto i = 0; i < idx; i++) {
-            curr = curr->getNext();
-        }
-        return curr->getContentsAddr();
     }
     void clear() {
         this->head = nullptr;
